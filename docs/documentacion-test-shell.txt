@@ -1,0 +1,32 @@
+# Test de CRUD en modelos creados vía shell
+python manage.py shell
+
+>>> # SELECT * FROM persona_app_persona;
+>>> from persona_app.models import Persona
+>>> personas_obtenidas = Persona.objects.all()
+>>> print(personas_obtenidas)
+<QuerySet [<Persona: Persona object (1)>, <Persona: Persona object (2)>]>
+
+
+>>> # SELECT * FROM persona_app_persona WHERE id = 2;
+>>> persona_seleccionada = Persona.objects.get(pk=2)
+>>> persona_seleccionada.nombre
+'B'
+>>> personas_obtenidas[0].id
+1
+
+>>> # INSERT INTO persona_app_persona (nombre, edad, habilitada, fecha_nacimiento) VALUES ('C','30','0', NULL);
+>>> persona_nueva = Persona.objects.create(nombre="C", edad=30, habilitada=False,fecha_nacimiento=None)
+>>> persona_nueva = Persona.objects.create(nombre="D", edad=35, habilitada=True,fecha_nacimiento="1993-03-30")
+
+>>> # UPDATE persona_app_persona SET fecha_nacimiento = "1994-12-12";
+>>> # Cambiar la fecha de nacimiento de C a 1994-12-12
+>>> persona_editada = Persona.objects.get(pk=3)
+>>> persona_editada.fecha_nacimiento = "1994-12-12"
+>>> persona_editada.save()
+
+>>> # DELETE FROM persona_app_persona WHERE id = '4';
+>>> # ELIMINAR AL "D"
+>>> persona_eliminada = Persona.objects.get(pk=4)
+>>> persona_eliminada.delete()
+(1, {'persona_app.Persona': 1})
